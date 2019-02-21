@@ -1,6 +1,6 @@
 /**
  * SearchTimer.java
- * Noam Benkler and Jimmy Collazo, 18 February 2019
+ * Noam Benkler, 18 February 2019
  *
  * A demonstration of simple timing code for binary and linear searching algorithms.
  */

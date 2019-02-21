@@ -1,6 +1,6 @@
 /**
  * LinkedList.java
- * Jeff Ondich, 1/17/14
+ * Noam Benkler, 1/17/14
  *
  * Introducing linked lists. We're not trying to do this generally
  * here. This is a linked list of String (not of anything else), and

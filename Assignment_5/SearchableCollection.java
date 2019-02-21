@@ -1,6 +1,6 @@
 /**
  * SearchableCollection.java
- * Jeff Ondich, 13 February 2019
+ * Noam Benkler, 13 February 2019
  *
  * An interface for use with our exploration of search
  * algorithms in CS201.

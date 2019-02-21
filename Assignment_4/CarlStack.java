@@ -1,6 +1,6 @@
 /**
  * CarlStack.java
- * Jeff Ondich, 31 January 2019
+ * Noam Benkler, 31 January 2019
  *
  * An example stack interface to help illustrate
  * the difference between interfaces and
