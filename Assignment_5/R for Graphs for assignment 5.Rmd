@@ -1,0 +1,33 @@
+---
+title: "Graphs for assignment 5"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+```{r}
+data <- read.csv("data1.csv")
+colnames(data) <- c("type", "N", "time")
+
+data %>% mutate(N = N/1000000) %>% ggplot(aes(x = N, y = time, color = type)) + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  geom_abline(intercept = 0, slope = 1) +
+  labs(x = "Number of Times Search Algorithm was Run (millions)",
+       y = "Search Time",
+       title = "Figure 1: Time Taken to Run Linear and Binary search Algorithms \n v. Number of Times They Were Run")
+
+data %>% mutate(N = N/1000000) %>% filter(type == "Binary") %>% ggplot(aes(x = N, y = time)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(x = "Number of Times Binary Search was Run (millions)",
+       y = "Search Time",
+       title = "Figure 2: Time Taken to Run Binary Search v. Number of Times Run")
+
+library(stargazer)
+data %>% mutate(N_millions = N/1000000) %>% select(type, N_millions, time) %>% stargazer(summary = FALSE, type = 'text', title = "Table 1: RunTime Data for Linear and Binary Search Algorithms")
+```
+

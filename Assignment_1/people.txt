@@ -1,0 +1,12 @@
+Ondich,Jeff,1961,5,3
+Obama,Barack,1961,8,4
+Ocasio-Cortez,Alexandria,1989,10,13
+Bush,George,1946,7,6
+Bush,George,1924,6,12
+Bush,Vannevar,1890,3,11
+Hopper,Grace,1906,12,9
+Turing,Alan,1912,6,23
+Gaga,Lady,1986,3,28
+Madonna,,1958,8,16
+X,Malcolm,1925,5,19
+Bunny,Bugs,1940,7,27

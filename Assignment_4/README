@@ -1,0 +1,72 @@
+CS 201: Data Structures
+Stacks: interface versus implementation
+Hand in as interfaces.pdf or interfaces.txt
+
+You may submit this assignment alone or with a partner of your choosing.
+
+Submit your answers to all the numbered questions below. If a question doesn't have a number, you should think about and try to answer the question, but don't include your answer in your write-up.
+
+Goals
+Experiment with multiple implementations of a single interface.
+Learn how the Java interface keyword works.
+Practice comparing the time complexity of different implementations of the same method interface.
+Practice expressing those time complexities in Big O notation.
+Prologue: interfaces
+Open up a tab and look at the Java documentation for the List interface. If you scroll down to the Method Summary, you'll find descriptions of 27 methods. Many of them are likely a bit perplexing at this point (hashCode? spliterator?!). But most are pretty straightforward for our intuitive notion of a list. There are two kinds of add (add at the end, or add/insert at a particular index), there's size, there are two kinds of remove, etc. All very list-y.
+
+This collection of methods is Java's way of saying "this is what it means to be a List". Put another way, these methods constitute the "operations" section of an ADT.
+
+But this is weird: if you scroll back towards the top of the page, you'll see there is no Constructor Summary section. There's always a constructor summary, but not here. Hold that in mind.
+
+Now scroll back to the very top of the page. The title is Interface List<E>. If you look at the title on the ArrayList page, it says Class ArrayList<E>. So List is not a class? Something weird is going on.
+
+While you're looking at ArrayList, scroll down to the Method Summary. Do you see two kinds of add? Two kinds of remove? size? It looks like List and ArrayList have a lot in common. Look closer: at the top of the ArrayList page, you'll see "All Implemented Interfaces:...List<E>" and at the top of the List page, you'll see "All Known Implementing Classes:...ArrayList". Clearly, there's some sense in which ArrayList is a kind of List.
+
+OK, so what's the deal?
+
+List is an interface. It consists entirely of a collection of method signatures. It has no constructors, so you can't instantiate a List at all (i.e. "new List()" doesn't compile, let alone run).
+ArrayList is a class that implements the List interface. That is, ArrayList includes all the List methods, plus a few more, and you can instantiate an ArrayList.
+LinkedList also implements the List interface. So do several other classes.
+An interface is often described as a contract. So, for example, if you write a new SuperCoolList class and you want Java to consider it to be a List, SuperCoolList will be required by the contract to provide implementations of all 27 List methods.
+
+OK, but if an interface is a contract, and SuperCoolList meets its obligations under the List contract, what benefit does SuperCoolList get? More accurately, what benefits do programmers using the SuperCoolList get?
+
+To answer this question, take one more trip into the Java documentation to see the reverse method in the Collections class. Because reverse takes a List as a parameter, you can call reverse(myArrayList) or reverse(myLinkedList) or reverse(mySuperCoolList). That is, if SuperCoolList meets its part of the bargain by implementing all the List methods, then users of SuperCoolList get reverse for free. (And not just reverse—there are many more examples.)
+
+Example: the CarlStack interface
+I have created a minimal version of a stack interface in Java. Because Java already has a class named Stack, I have called my interface CarlStack to avoid confusion.
+
+Grab a copy of CarlStack.java and take a look:
+
+Does it have the methods you would expect for a stack?
+Is it an interface or a class?
+Try compiling just CarlStack.java. Does it compile?
+Try adding a little hello-world main method to CarlStack and try compiling that. Does it work? What's the error?
+The CarlStackLL implementation
+Grab a copy of CarlStackLL.java.
+
+Is CarlStackLL an implementation of the CarlStack interface? How can you tell?
+Does CarlStackLL include implementations of all the CarlStack methods?
+What kind of data structure does a CarlStackLL instance use to store the items on the stack?
+Try compiling CarlStackLL.java. Does it work?
+Comment out the peek method from CarlStackLL and try compiling. Does it work? If not, what error message does it give you? Why?
+CarlStackAL and CarlStackALBad
+Grab copies of CarlStackAL.java and CarlStackALBad.java.
+
+Are CarlStackAL and CarlStackALBad classes or interfaces?
+How do CarlStackAL and CarlStackALBad instances store their stack data?
+How do CarlStackAL and CarlStackALBad differ?
+What is the meaning of the initialCapacity parameter to one of the constructors in CarlStackAL and CarlStackALBad?
+CarlStackTester and the complexity of implmentations
+Get a copy of CarlStackTester.java.
+
+Read CarlStackTester's main method. How can you make its if-block execute? How can you make its else-block execute? How can you make the else-block execute and crash?
+Read the testStack method. What is its parameter's type? What type(s) of object are you allowed to pass to testStack?
+Run CarlStackTester to execute main's if-block. Do all the CarlStack implementations do what you expect? If not, what's different from what you expected?
+Run CarlStackTester with N = 200000. Repeat with N = 400000, 600000, and 800000. Report the running times for both CarlStackAL and CarlStackALBad for all four test runs.
+For which class are the test runs faster? Why?
+Examine the push method in CarlStackAL. Use Big O notation to express your expectation of the time complexity of one call of push("something") in terms of N, where N is the number of items in the stack before the push method is called. Explain your reasoning.
+Repeat the previous question, but for CarlStackALBad.
+Use Big O notation to express your expectation of the running time of timeTestStack(new CarlStackAL(N), N). Explain your reasoning.
+To what extent does your prediction in the previous question match what you observed? (If "to a large extent", great. Otherwise, discuss why your prediction and observations don't match.)
+Repeat the previous two questions for timeTestStack(new CarlStackALBad(N), N).

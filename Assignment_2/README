@@ -1,0 +1,25 @@
+CS 201: Data Structures
+Linked lists: implementing some interfaces
+Hand in via Moodle as LinkedList.java
+
+Goals
+Learn how to manipulate simple linked structures.
+Continue practicing core Java constructs like loops, conditionals, methods, and types.
+Background
+The idea of nodes that contain links pointing to other nodes is one of the most powerful techniques in data structure implementation, so it's time to practice. For this assignment, I have provided you with LinkedList.java, a partially implemented class using a singly-linked list to store a sequence of String objects. Your job will be to provide implementations for the un-implemented methods.
+
+Constraints
+You will notice that the methods in LinkedList.java are thoroughly documented using javadoc comments. It is VERY IMPORTANT that you adhere to those specifications. In particular:
+
+You may not change the method signatures at all. (That is, you must not change the top line of any method, with "public" and the return type and the method name and the parameter list.)
+You may not adjust the description in the method comment. Implement what the comment says, even if you'd prefer something different.
+You may not change the interior class Node. Node has all the complexity it needs already, so leave it alone.
+On the other hand:
+
+You may add as many private methods as you need to help you implement the required methods.
+You may either use the main() I provided for you or modify it as you wish.
+What to hand in
+Hand in your updated copy of LinkedList.java.
+
+And of course...
+Start early, ask questions, and have fun!

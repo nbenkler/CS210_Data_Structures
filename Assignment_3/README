@@ -1,0 +1,228 @@
+CS 201: Data Structures
+Mazes, Part 1: loading and printing a maze
+Hand in via Moodle as Maze.java
+
+You may work with a partner of your choosing or alone. If you want me to assign you a partner, send me a request to do so via Slack direct message.
+
+Goals
+More Java practice, with emphasis on reading and parsing input from a file
+Practice adhering to a specification
+Prepare code that will be essential in a later assignment
+Background
+During the next few days, we'll learn about two related data structures called stacks and queues. One of the nicest first applications of stacks is solving mazes. When we get to the question of using a stack to solve a maze, we'll want to focus all our attention on the algorithms and data structures. So before we get there, we're going to write some code to read a maze from a text file and print the maze in a human-readable fashion.
+
+What your program should do
+You'll write a class called Maze. Each instance of Maze will represent a single maze. Maze.java will also include a main() method that acts as a test of the loading and printing of mazes. When you run "java Maze maze.txt", your program should load the maze from maze.txt and print the human-readable maze to System.out.
+
+For example, if maze.txt is:
+
+6 5
+0 0
+5 4
+L-_|_-
+|L--|_
+|-_-|_
+|L|L||
+L__L__
+then the output should be:
+
++-----+-----+-----+-----+-----+-----+
+|                 |                 |
+|  S              |                 |
+|                 |                 |
++-----+     +-----+     +-----+     +
+|     |                 |           |
+|     |                 |           |
+|     |                 |           |
++     +-----+     +     +     +-----+
+|                       |           |
+|                       |           |
+|                       |           |
++     +     +-----+     +     +-----+
+|     |     |     |     |     |     |
+|     |     |     |     |     |     |
+|     |     |     |     |     |     |
++     +-----+     +-----+     +     +
+|                 |                 |
+|                 |              F  |
+|                 |                 |
++-----+-----+-----+-----+-----+-----+
+The maze file format
+For this assignment, we'll assume that our mazes are rectangular, and that they have walls along the entire outside of the maze, with no gaps in these outer walls. We will also specify a "start square" and an "finish square" to indicate the goal of the maze-solver--to get from S to F.
+
+Maze files will have the following structure:
+
+<Number of columns> <Number of rows>
+<0-based column number of the start square> <0-based row number of the start square> 
+<0-based column number of the finish square> <0-based row number of the finish square> 
+<Row 0 description>
+<Row 1 description>
+...
+Each row description includes a single character for each square in that row, and each character describes the left and bottom walls for its square. Specifically:
+
+L means that the square has both a left and a bottom wall
+| (vertical bar) means that the square has a left wall, but no bottom wall
+_ (underscore) means that the square has a bottom wall, but no left wall
+- (hyphen) means that the square has neither a left wall nor a bottom wall
+Putting this together in a small example:
+
+3 2     [The maze has 3 columns and 2 rows]
+0 0     [The start square is at the upper left]
+2 0     [The finish square is at the upper right]
+L-|     [(0,0) has left and bottom walls; (1,0) has neither left nor bottom; (2,0) has just left]
+L__     [(0,1) has left and bottom walls; (1,1) has just bottom; (2,1) has just bottom]
+which yields this maze:
+
++-----+-----+-----+
+|           |     |
+|  S        |  F  |
+|           |     |
++-----+     +     +
+|                 |
+|                 |
+|                 |
++-----+-----+-----+
+Note that we specify only the left and bottom walls for each square, and not the top and right walls. This is sufficient to describe the whole maze (but why?).
+
+Code structure
+Structure your code as shown below. By storing the Maze as a 2-dimensional collection of MazeSquare objects, you'll be well prepared to execute the maze-solving algorithm. As noted below, if you're more comfortable putting MazeSquare in a separate MazeSquare.java file, feel free to do so.
+
+public class Maze {
+    private ArrayList<ArrayList<MazeSquare>> rowList;
+    [Other instance variables if you need them]
+
+    // This can live here as a private inner class, or you could
+    // put MazeSquare in its own MazeSquare.java if you prefer.
+    private class MazeSquare {
+        [Instance variables of your choosing]
+
+        [Whatever methods you need, like:]
+        public boolean hasTopWall() {
+           ...
+        }
+    }
+
+    // Methods for Maze
+    public Maze() {
+        ...
+    }
+
+    public void load(String fileName) {
+        ...
+    }
+
+    public void print() {
+        ... print the pretty Maze to System.out ...
+    }
+
+    ... 
+
+    // This main program acts as a simple unit test for the
+    // load-from-file and print-to-System.out Maze capabilities.
+    public static void main(String[] args) {
+        if (args.length != 1) {
+            System.err.println("Usage: java Maze mazeFile");
+            System.exit(1);
+        }
+
+        Maze maze = new Maze();
+        maze.load(args[0]);
+        maze.print();
+    }
+}
+As always...
+Start early, ask questions, and have fun!
+
+
+
+
+Mazes, Part 2: solving a maze
+Hand in via Moodle as Maze.java
+
+Please continue to work with your partner from Mazes, Part 1.
+
+Goals
+Use a stack to solve a non-trivial problem.
+Implement a classic example of a backtracking algorithm.
+More Java practice.
+For this assignment, you will use a stack to solve mazes stored in text files as described in Mazes, Part 1. Though there are many maze-solving algorithms, we'll use a stack-based algorithm known both as backtracking and depth-first search.
+
+The algorithm, in prose
+Mark every square in the maze as unvisited.
+Create an empty stack of maze squares.
+Push the start square onto the stack, and mark the start square as visited.
+If the stack is empty, you're done and the maze is unsolvable.
+Let T be the top item on the stack. If T is equal to the finish square, you're done and the stack contains a solution to the maze.
+If all squares adjacent to T (i.e. the squares up, down, right, or left from T--no diagonal adjacency) are either blocked from T by a wall or are marked visited already, pop T off the stack and go to step 4.
+Otherwise, select a square S that is adjacent to T, unvisited, and accessible from S (no wall between them). Mark S as visited and push it on the stack. Go to step 4.
+Your job
+Supplement your Maze.java from Mazes, Part 1 to support solving mazes and printing the solved version. Specifically:
+
+Your program's command line should follow the syntax:
+
+Usage: java Maze mazeFile [--showsolution]
+For example, suppose maze.txt contains:
+
+6 5
+0 0
+0 4
+L-_|_-
+|L--|_
+|-_-|_
+|L|L||
+L__L__
+then "java Maze maze.txt" should print the maze with no solution, like so:
+
++-----+-----+-----+-----+-----+-----+
+|                 |                 |
+|  S              |                 |
+|                 |                 |
++-----+     +-----+     +-----+     +
+|     |                 |           |
+|     |                 |           |
+|     |                 |           |
++     +-----+     +     +     +-----+
+|                       |           |
+|                       |           |
+|                       |           |
++     +     +-----+     +     +-----+
+|     |     |     |     |     |     |
+|     |     |     |     |     |     |
+|     |     |     |     |     |     |
++     +-----+     +-----+     +     +
+|                 |                 |
+|  F              |                 |
+|                 |                 |
++-----+-----+-----+-----+-----+-----+
+On the other hand, "java Maze maze.txt --showsolution" should print the maze with the path of the solution marked, like so:
+
++-----+-----+-----+-----+-----+-----+
+|                 |                 |
+|  S     *        |                 |
+|                 |                 |
++-----+     +-----+     +-----+     +
+|     |                 |           |
+|     |  *     *     *  |           |
+|     |                 |           |
++     +-----+     +     +     +-----+
+|                       |           |
+|  *     *     *     *  |           |
+|                       |           |
++     +     +-----+     +     +-----+
+|     |     |     |     |     |     |
+|  *  |     |     |     |     |     |
+|     |     |     |     |     |     |
++     +-----+     +-----+     +     +
+|                 |                 |
+|  F              |                 |
+|                 |                 |
++-----+-----+-----+-----+-----+-----+
+Some mazes may have multiple solutions. For example, the maze shown above displays a solution that's two steps longer than necessary. This happened because my algorithm explored squares moving to the right before exploring squares moving down. Your program need not find the shortest path; any path that crosses no walls is acceptable.
+
+Important note
+It is possible to abandon the stack-based algorithm outlined above and write your maze-solving code recursively. Don't do that for this assignment. The main thing we'll do to follow up on this assignment is to discuss the very close relationship between recursion and stacks. I want you to solve a significant problem with a stack before we go back and compare your stack-based solution to a recursive solution.
+
+Also, there's a powerful algorithm called Dijkstra's algorithm that can be adapted to solve a maze, with the additional benefit of guaranteeing you a shortest possible solution. Don't try to do that, either. We'll get to Dijkstra's algorithm in March. Right now, just use the algorithm above.
+
+And of course...
+Start early, ask questions, and have fun!
